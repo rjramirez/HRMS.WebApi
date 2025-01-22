@@ -1,0 +1,1 @@
+﻿ Scaffold-DbContext "Server=DESKTOP-44OTDTM\SQLEXPRESS;Database=HRMS;Integrated Security=True;" Microsoft.EntityFrameworkCore.SqlServer -DataAnnotations -OutputDir DBContexts/HRMSDB/Models -ContextDir DBContexts/HRMSDB -Context HRMSDBContext -Tables AuditTrail, AuditTrailDetail, ErrorLog, Employee, EmployeeRole, Role, User, UserRole -Force -NoOnConfiguring

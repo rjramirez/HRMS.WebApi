@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.DBContexts.MoneyMeChallengeDB.Models
+namespace DataAccess.DBContexts.HRMSDB.Models
 {
     [Table("ErrorLog")]
     public partial class ErrorLog

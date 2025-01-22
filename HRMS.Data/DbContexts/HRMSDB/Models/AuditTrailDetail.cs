@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.DBContexts.MoneyMeChallengeDB.Models
+namespace DataAccess.DBContexts.HRMSDB.Models
 {
     [Table("AuditTrailDetail")]
     public partial class AuditTrailDetail
@@ -19,6 +22,8 @@ namespace DataAccess.DBContexts.MoneyMeChallengeDB.Models
         public string EntityField { get; set; }
         public string OldValue { get; set; }
         public string NewValue { get; set; }
+        [StringLength(20)]
+        public string Action { get; set; }
 
         [ForeignKey(nameof(AuditTrailId))]
         [InverseProperty("AuditTrailDetails")]

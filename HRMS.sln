@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.WebApi", "HRMS.WebApi\HRMS.WebApi.csproj", "{F7B25B07-204E-4A65-8B3A-85DE32E9FCCD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Library", "01 Library", "{1698B75B-6F3A-449F-8142-969654552385}"
+	ProjectSection(SolutionItems) = preProject
+		AssemblyInfo.cs = AssemblyInfo.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Data", "02 Data", "{FE901935-1F40-4B42-9F11-2507602A8106}"
 EndProject
@@ -13,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 API", "03 API", "{E19BC4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Client", "04 Client", "{8A2967F7-58F1-454F-87E5-C35B18F86916}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.Data", "HRMS.Data\HRMS.Data.csproj", "{13B69179-13AF-4239-B618-9EF92126227C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "HRMS.Data\DataAccess.csproj", "{13B69179-13AF-4239-B618-9EF92126227C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{FD0C963E-49E6-4D57-BCE0-4EB4E69B516F}"
 EndProject

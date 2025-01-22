@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DbContexts\MoneyMeChallengeDB\Models\New folder\**" />
-    <EmbeddedResource Remove="DbContexts\MoneyMeChallengeDB\Models\New folder\**" />
-    <None Remove="DbContexts\MoneyMeChallengeDB\Models\New folder\**" />
+    <Compile Remove="DbContexts\HRMSDB\Models\New folder\**" />
+    <EmbeddedResource Remove="DbContexts\HRMSDB\Models\New folder\**" />
+    <None Remove="DbContexts\HRMSDB\Models\New folder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +28,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DbContexts\HRMSDB\Models\" />
   </ItemGroup>
 
 </Project>

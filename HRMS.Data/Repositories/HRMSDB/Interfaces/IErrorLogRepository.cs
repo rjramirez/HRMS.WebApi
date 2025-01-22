@@ -1,7 +1,7 @@
-﻿using DataAccess.DBContexts.MoneyMeChallengeDB.Models;
+﻿using DataAccess.DBContexts.HRMSDB.Models;
 using DataAccess.Repositories.Base;
 
-namespace DataAccess.Repositories.MoneyMeChallengeDB.Interfaces
+namespace DataAccess.Repositories.HRMSDB.Interfaces
 {
     public interface IErrorLogRepository : IBaseRepository<ErrorLog>
     {

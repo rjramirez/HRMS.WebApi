@@ -1,7 +1,7 @@
 ﻿using Common.Constants;
 using Common.DataTransferObjects.AuditTrail;
-using DataAccess.DBContexts.MoneyMeChallengeDB;
-using DataAccess.DBContexts.MoneyMeChallengeDB.Models;
+using DataAccess.DBContexts.HRMSDB;
+using DataAccess.DBContexts.HRMSDB.Models;
 using DataAccess.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -10,8 +10,8 @@ namespace DataAccess.Services
 {
     public class DbContextChangeTrackingService : IDbContextChangeTrackingService
     {
-        private readonly MoneyMeChallengeDBContext _context;
-        public DbContextChangeTrackingService(MoneyMeChallengeDBContext context)
+        private readonly HRMSDBContext _context;
+        public DbContextChangeTrackingService(HRMSDBContext context)
         {
             _context = context;
         }
