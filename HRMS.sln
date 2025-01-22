@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{F7B25B07-204E-4A65-8B3A-85DE32E9FCCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS.WebApi", "HRMS.WebApi\HRMS.WebApi.csproj", "{F7B25B07-204E-4A65-8B3A-85DE32E9FCCD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Library", "01 Library", "{1698B75B-6F3A-449F-8142-969654552385}"
 EndProject
