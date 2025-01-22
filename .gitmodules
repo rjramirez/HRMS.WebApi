@@ -1,0 +1,3 @@
+[submodule "HRMS.Portal"]
+	path = HRMS.Portal
+	url = https://github.com/rjramirez/HRMS.Portal
