@@ -19,11 +19,13 @@ namespace DataAccess.UnitOfWorks.HRMSDB
 
             ErrorLogRepository = new ErrorLogRepository(_context);
             AuditTrailRepository = new AuditTrailRepository(_context);
+            EmployeeRepository = new EmployeeRepository(_context);
         }
 
         public IErrorLogRepository ErrorLogRepository { get; private set; }
 
         public IAuditTrailRepository AuditTrailRepository { get; private set; }
+        public IEmployeeRepository EmployeeRepository { get; private set; }
 
         public void Dispose()
         {

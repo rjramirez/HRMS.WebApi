@@ -7,5 +7,6 @@ namespace DataAccess.UnitOfWorks.HRMSDB
     {
         public IErrorLogRepository ErrorLogRepository { get; }
         public IAuditTrailRepository AuditTrailRepository { get; }
+        public IEmployeeRepository EmployeeRepository { get; }
     }
 }
