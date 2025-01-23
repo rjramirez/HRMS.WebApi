@@ -8,10 +8,6 @@ namespace DataAccess.DBContexts.HRMSDB
 {
     public partial class HRMSDBContext : DbContext
     {
-        public HRMSDBContext()
-        {
-        }
-
         public HRMSDBContext(DbContextOptions<HRMSDBContext> options)
             : base(options)
         {
@@ -37,15 +33,13 @@ namespace DataAccess.DBContexts.HRMSDB
                     .HasConstraintName("FK_AuditTrailDetail_AuditTrail");
             });
 
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.Property(e => e.EmployeeId).ValueGeneratedOnAdd();
-            });
-
             modelBuilder.Entity<EmployeeRole>(entity =>
             {
-                entity.HasKey(e => e.RoleId)
-                    .HasName("PK_EmployeeRole_1");
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.EmployeeRoles)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Role_EmployeeRole");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -54,7 +48,7 @@ namespace DataAccess.DBContexts.HRMSDB
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.UserRoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_UserRole1");
+                    .HasConstraintName("FK_User_UserRole");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -10,18 +10,17 @@ namespace DataAccess.DBContexts.HRMSDB.Models
     public partial class EmployeeRole
     {
         [Key]
+        public int EmployeeRoleId { get; set; }
+        public int EmployeeId { get; set; }
         public short RoleId { get; set; }
-        [Required]
-        [StringLength(20)]
-        [Unicode(false)]
-        public string RoleName { get; set; }
-        [StringLength(50)]
-        [Unicode(false)]
-        public string RoleDescription { get; set; }
         public bool Active { get; set; }
         public DateTime CreatedAt { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy { get; set; }
+
+        [ForeignKey(nameof(RoleId))]
+        [InverseProperty("EmployeeRoles")]
+        public virtual Role Role { get; set; }
     }
 }

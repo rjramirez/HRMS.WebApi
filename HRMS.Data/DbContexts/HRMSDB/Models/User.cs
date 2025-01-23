@@ -12,9 +12,7 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         [Key]
         public int UserId { get; set; }
         public short UserRoleId { get; set; }
-        [Required]
-        [StringLength(100)]
-        public string Email { get; set; }
+        public int EmployeeId { get; set; }
         public bool Active { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime CreatedAt { get; set; }

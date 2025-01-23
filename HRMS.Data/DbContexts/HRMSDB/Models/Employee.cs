@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.DBContexts.HRMSDB.Models
 {
-    [Keyless]
     [Table("Employee")]
     public partial class Employee
     {
+        [Key]
         public int EmployeeId { get; set; }
+        public int EmployeeNumber { get; set; }
+        [Required]
         [StringLength(100)]
         [Unicode(false)]
         public string EmployeeEmail { get; set; }

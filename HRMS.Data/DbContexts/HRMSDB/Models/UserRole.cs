@@ -16,15 +16,19 @@ namespace DataAccess.DBContexts.HRMSDB.Models
 
         [Key]
         public short UserRoleId { get; set; }
-        [Required]
         [StringLength(50)]
-        [Unicode(false)]
         public string UserRoleName { get; set; }
-        [StringLength(50)]
-        [Unicode(false)]
-        public string UserRoleDescription { get; set; }
+        [StringLength(100)]
+        public string UserDescription { get; set; }
         public bool Active { get; set; }
-        public int? UpdatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        [Required]
+        [StringLength(100)]
+        [Unicode(false)]
+        public string CreatedBy { get; set; }
+        [StringLength(100)]
+        [Unicode(false)]
+        public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
         [InverseProperty(nameof(User.UserRole))]

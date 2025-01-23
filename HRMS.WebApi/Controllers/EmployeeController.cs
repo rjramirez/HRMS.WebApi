@@ -16,14 +16,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetBlackList")]
-        [SwaggerOperation(Summary = "Get BlackList")]
-        public async Task<ActionResult<IEnumerable<EmployeeDetail>>> GetBlackList()
+        [Route("GetEmployees")]
+        [SwaggerOperation(Summary = "Get Employees")]
+        public async Task<ActionResult<IEnumerable<EmployeeDetail>>> GetEmployees()
         {
             IEnumerable<EmployeeDetail> referenceDataDetails = await _hrmsDBUnitOfWork.EmployeeRepository.FindAsync(
                 selector: e => new EmployeeDetail()
                 {
                     EmployeeId = e.EmployeeId,
+                    EmployeeEmail = e.EmployeeEmail,
                 },
                 predicate: r => r.Active == true,
                 orderBy: r => r.OrderBy(o => o.EmployeeId));
