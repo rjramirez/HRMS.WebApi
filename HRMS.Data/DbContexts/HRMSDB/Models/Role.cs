@@ -24,9 +24,9 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         [Unicode(false)]
         public string RoleDescription { get; set; }
         public bool Active { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedDate { get; set; }
         public int CreatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         public int? UpdatedBy { get; set; }
 
         [InverseProperty(nameof(EmployeeRole.Role))]

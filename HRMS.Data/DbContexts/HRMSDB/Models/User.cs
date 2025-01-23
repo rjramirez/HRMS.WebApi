@@ -15,10 +15,10 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         public int EmployeeId { get; set; }
         public bool Active { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         public int? UpdatedBy { get; set; }
 
         [ForeignKey(nameof(UserRoleId))]
