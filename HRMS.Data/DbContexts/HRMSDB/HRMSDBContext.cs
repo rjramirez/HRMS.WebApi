@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using DataAccess.DBContexts.HRMSDB.Models;
 
 namespace DataAccess.DBContexts.HRMSDB
@@ -39,6 +42,12 @@ namespace DataAccess.DBContexts.HRMSDB
 
             modelBuilder.Entity<EmployeeRole>(entity =>
             {
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.EmployeeRoles)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeeRole_Employee");
+
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.EmployeeRoles)
                     .HasForeignKey(d => d.RoleId)
@@ -46,13 +55,13 @@ namespace DataAccess.DBContexts.HRMSDB
                     .HasConstraintName("FK_Role_EmployeeRole");
             });
 
-            modelBuilder.Entity<User>(entity =>
+            modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.HasOne(d => d.UserRole)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.UserRoleId)
+                entity.HasOne(d => d.User)
+                    .WithMany()
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_UserRole");
+                    .HasConstraintName("FK_UserRole_User");
             });
 
             OnModelCreatingPartial(modelBuilder);

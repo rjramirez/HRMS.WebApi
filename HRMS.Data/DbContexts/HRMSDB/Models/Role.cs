@@ -28,7 +28,8 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         [Required]
         [StringLength(50)]
         public string CreatedBy { get; set; }
-        public DateTime? UpdatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        [Required]
         [StringLength(50)]
         public string UpdatedBy { get; set; }
 

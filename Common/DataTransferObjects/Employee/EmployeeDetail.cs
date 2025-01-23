@@ -1,8 +1,6 @@
-﻿using Common.DataTransferObjects._Base.Interface;
-
-namespace Common.DataTransferObjects.ReferenceData
+﻿namespace Common.DataTransferObjects.ReferenceData
 {
-    public class EmployeeDetail : AuditColumnsInterface
+    public class EmployeeDetail
     {
         public int EmployeeId { get; set; }
         public int EmployeeNumber { get; set; }
@@ -10,6 +8,8 @@ namespace Common.DataTransferObjects.ReferenceData
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int SupervisorId { get; set; }
+        public IEnumerable<EmployeeRoleDetail> EmployeeRoles { get; set; }
+
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }

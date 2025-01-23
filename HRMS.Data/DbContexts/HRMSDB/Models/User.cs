@@ -11,7 +11,6 @@ namespace DataAccess.DBContexts.HRMSDB.Models
     {
         [Key]
         public int UserId { get; set; }
-        public short UserRoleId { get; set; }
         public int EmployeeId { get; set; }
         public bool Active { get; set; }
         [Column(TypeName = "datetime")]
@@ -23,9 +22,5 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         public DateTime? UpdatedDate { get; set; }
         [StringLength(50)]
         public string UpdatedBy { get; set; }
-
-        [ForeignKey(nameof(UserRoleId))]
-        [InverseProperty("Users")]
-        public virtual UserRole UserRole { get; set; }
     }
 }

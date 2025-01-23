@@ -32,6 +32,24 @@ namespace WebAPI.Controllers
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     SupervisorId = e.SupervisorId,
+                    EmployeeRoles = e.EmployeeRoles.Select(er => new EmployeeRoleDetail()
+                    {
+                        EmployeeRoleId = er.EmployeeRoleId,
+                        EmployeeId = er.EmployeeId,
+                        RoleDetail = new RoleDetail()
+                        {
+                            RoleId = er.Role.RoleId,
+                            RoleName = er.Role.RoleName,
+                            RoleDescription = er.Role.RoleDescription,
+                            Active = er.Role.Active,
+                            CreatedDate = er.Role.CreatedDate,
+                            CreatedBy = er.Role.CreatedBy,
+                            UpdatedDate = er.Role.UpdatedDate,
+                            UpdatedBy = er.Role.UpdatedBy
+                        },
+                        CreatedDate = er.CreatedDate,
+                        CreatedBy = er.CreatedBy,
+                    }).ToList(),
                     Active = e.Active,
                     CreatedDate = e.CreatedDate,
                     CreatedBy = e.CreatedBy,
@@ -135,5 +153,26 @@ namespace WebAPI.Controllers
 
             return Ok(employeeDetail);
         }
+
+        [HttpDelete]
+        [Route("DeleteEmployee")]
+        [SwaggerOperation(Summary = "Delete Employee by EmployeeNumber")]
+        public async Task<ActionResult<EmployeeDetail>> DeleteEmployee(int employeeNumber)
+        {
+            Employee employee = await _hrmsDBUnitOfWork.EmployeeRepository.FirstOrDefaultAsync(predicate: e => e.EmployeeNumber == employeeNumber);
+            if (employee == null)
+            {
+                return NotFound(new ErrorMessage(ErrorMessageTypeConstant.NotFound, $"Employee does not exist: {employeeNumber}"));
+            }
+
+            employee.Active = false;
+            employee.UpdatedDate = DateTime.UtcNow;
+            employee.UpdatedBy = "System";
+
+            await _hrmsDBUnitOfWork.SaveChangesAsync("System");
+
+            return Ok(employee.EmployeeNumber);
+        }
+
     }
 }

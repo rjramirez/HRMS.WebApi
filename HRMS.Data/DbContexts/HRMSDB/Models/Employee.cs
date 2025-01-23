@@ -9,6 +9,11 @@ namespace DataAccess.DBContexts.HRMSDB.Models
     [Table("Employee")]
     public partial class Employee
     {
+        public Employee()
+        {
+            EmployeeRoles = new HashSet<EmployeeRole>();
+        }
+
         [Key]
         public int EmployeeId { get; set; }
         public int EmployeeNumber { get; set; }
@@ -36,5 +41,8 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         [Required]
         [StringLength(50)]
         public string UpdatedBy { get; set; }
+
+        [InverseProperty(nameof(EmployeeRole.Employee))]
+        public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
     }
 }
