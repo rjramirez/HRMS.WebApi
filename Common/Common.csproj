@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataTransferObjects\AppSettings\AzureAdClientDefinition.cs" />
+    <Compile Remove="DataTransferObjects\AppSettings\IdentityServerApiDefinition.cs" />
+    <Compile Remove="DataTransferObjects\AppSettings\IdentityServerClientDefinition.cs" />
+    <Compile Remove="DataTransferObjects\AppSettings\SecurityGroup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\AssemblyInfo.cs" Link="AssemblyInfo.cs" />
   </ItemGroup>
 

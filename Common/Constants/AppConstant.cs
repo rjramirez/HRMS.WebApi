@@ -5,6 +5,6 @@ namespace Common.Constants
 {
     public static class HttpNamedClientConstant
     {
-        public const string ProjectApiClient = "ProjectApiClient";
+        public const string HRMSApiClient = "HRMSApiClient";
     }
 }
