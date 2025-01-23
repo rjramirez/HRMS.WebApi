@@ -76,6 +76,24 @@ namespace WebAPI.Controllers
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     SupervisorId = e.SupervisorId,
+                    EmployeeRoles = e.EmployeeRoles.Select(er => new EmployeeRoleDetail()
+                    {
+                        EmployeeRoleId = er.EmployeeRoleId,
+                        EmployeeId = er.EmployeeId,
+                        RoleDetail = new RoleDetail()
+                        {
+                            RoleId = er.Role.RoleId,
+                            RoleName = er.Role.RoleName,
+                            RoleDescription = er.Role.RoleDescription,
+                            Active = er.Role.Active,
+                            CreatedDate = er.Role.CreatedDate,
+                            CreatedBy = er.Role.CreatedBy,
+                            UpdatedDate = er.Role.UpdatedDate,
+                            UpdatedBy = er.Role.UpdatedBy
+                        },
+                        CreatedDate = er.CreatedDate,
+                        CreatedBy = er.CreatedBy,
+                    }).ToList(),
                     Active = e.Active,
                     CreatedDate = e.CreatedDate,
                     CreatedBy = e.CreatedBy,
