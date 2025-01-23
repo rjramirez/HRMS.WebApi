@@ -25,9 +25,12 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         public string RoleDescription { get; set; }
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int CreatedBy { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public int? UpdatedBy { get; set; }
+        [StringLength(50)]
+        public string UpdatedBy { get; set; }
 
         [InverseProperty(nameof(EmployeeRole.Role))]
         public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }

@@ -24,13 +24,17 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         [StringLength(100)]
         [Unicode(false)]
         public string LastName { get; set; }
-        public int? SupervisorId { get; set; }
-        public bool? Active { get; set; }
+        public int SupervisorId { get; set; }
+        public bool Active { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime CreatedDate { get; set; }
-        public int CreatedBy { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string CreatedBy { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime? UpdatedDate { get; set; }
-        public int? UpdateBy { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string UpdatedBy { get; set; }
     }
 }

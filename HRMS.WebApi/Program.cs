@@ -1,13 +1,28 @@
+using DataAccess.DBContexts.HRMSDB;
+using DataAccess.Services.Interfaces;
+using DataAccess.Services;
+using Microsoft.EntityFrameworkCore;
+using Common.Constants;
+using Common.DataTransferObjects.Version;
+using ApiConfiguration;
+using DataAccess.UnitOfWorks.HRMSDB;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+ApiServices.ConfigureServices(builder.Services);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+/*DBContext Registration*/
+builder.Services.AddDbContextPool<HRMSDBContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("HRMSDB")));
+
+/*UoW Registration*/
+builder.Services.AddScoped<IHRMSDBUnitOfWork, HRMSDBUnitOfWork>();
+
+builder.Services.AddScoped<IDbContextChangeTrackingService, DbContextChangeTrackingService>();
 
 var app = builder.Build();
+
+// Use CORS policy
+app.UseCors("AllowSpecificOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -17,9 +32,26 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers(); // Map controllers
+    endpoints.MapGet("/", async context =>
+    {
+        context.Response.ContentType = ApiHomePageConstant.ContentType;
+        await context.Response.WriteAsync(
+            string.Format(
+                ApiHomePageConstant.ContentFormat,
+                "HRMSApi",
+                app.Environment.EnvironmentName,
+                context.Request.Scheme,
+                context.Request.Host.Value,
+                VersionDetail.DisplayVersion()
+            )
+        );
+    });
+});
 
 app.Run();

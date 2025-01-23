@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using DataAccess.DBContexts.HRMSDB.Models;
 
 namespace DataAccess.DBContexts.HRMSDB
@@ -31,6 +28,13 @@ namespace DataAccess.DBContexts.HRMSDB
                     .HasForeignKey(d => d.AuditTrailId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AuditTrailDetail_AuditTrail");
+            });
+
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.Property(e => e.EmployeeId).ValueGeneratedNever();
+
+                entity.Property(e => e.EmployeeNumber).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<EmployeeRole>(entity =>

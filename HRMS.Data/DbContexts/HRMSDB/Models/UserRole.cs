@@ -23,13 +23,11 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }
         [Required]
-        [StringLength(100)]
-        [Unicode(false)]
+        [StringLength(50)]
         public string CreatedBy { get; set; }
-        [StringLength(100)]
-        [Unicode(false)]
-        public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+        [StringLength(50)]
+        public string UpdatedBy { get; set; }
 
         [InverseProperty(nameof(User.UserRole))]
         public virtual ICollection<User> Users { get; set; }
