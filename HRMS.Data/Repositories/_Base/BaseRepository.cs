@@ -155,5 +155,11 @@ namespace DataAccess.Repositories.Base
 
             return new PagedList<TResult>(items, new PagingMetadata(count, pagingParameter.PageNumber, pagingParameter.PageSize));
         }
+
+        //MAX
+        public async Task<int> MaxAsync(Expression<Func<TEntity, int>> selector)
+        {
+            return await _entity.AsNoTracking().MaxAsync(selector);
+        }
     }
 }

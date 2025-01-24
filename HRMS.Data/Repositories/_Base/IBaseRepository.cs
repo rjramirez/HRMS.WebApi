@@ -38,5 +38,9 @@ namespace DataAccess.Repositories.Base
         //AGREGATTED
         Task<bool> IsExistAsync(Expression<Func<TEntity, bool>> predicate);
         Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
+
+
+        //MAX
+        Task<int> MaxAsync(Expression<Func<TEntity, int>> selector);
     }
 }

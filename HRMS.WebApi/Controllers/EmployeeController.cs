@@ -165,19 +165,27 @@ namespace WebAPI.Controllers
                 UpdatedBy = "System"
             };
 
+            //Generate EmployeeNumber
+            int maxEmployeeNumberPlusOne = await _hrmsDBUnitOfWork.EmployeeRepository.MaxAsync(e => e.EmployeeNumber) + 1;
+
+            employee.EmployeeNumber = maxEmployeeNumberPlusOne;
+
             await _hrmsDBUnitOfWork.EmployeeRepository.AddAsync(employee);
             await _hrmsDBUnitOfWork.SaveChangesAsync("System");
 
-            var employeeRoles = employeeDetail.EmployeeRoles.Select(role => new EmployeeRole
+            if (employeeDetail.EmployeeRoles.Any())
             {
-                EmployeeId = employee.EmployeeId,
-                RoleId = role.RoleDetail.RoleId,
-                CreatedDate = DateTime.UtcNow,
-                CreatedBy = "System"
-            });
+                var employeeRoles = employeeDetail.EmployeeRoles.Select(role => new EmployeeRole
+                {
+                    EmployeeId = employee.EmployeeId,
+                    RoleId = role.RoleDetail.RoleId,
+                    CreatedDate = DateTime.UtcNow,
+                    CreatedBy = "System"
+                });
 
-            await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(employeeRoles);
-            await _hrmsDBUnitOfWork.SaveChangesAsync("System");
+                await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(employeeRoles);
+                await _hrmsDBUnitOfWork.SaveChangesAsync("System");
+            }
 
             return CreatedAtAction(nameof(Detail), new { employeeNumber = employee.EmployeeNumber }, employeeDetail);
         }

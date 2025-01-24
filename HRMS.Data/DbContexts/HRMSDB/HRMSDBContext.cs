@@ -33,13 +33,6 @@ namespace DataAccess.DBContexts.HRMSDB
                     .HasConstraintName("FK_AuditTrailDetail_AuditTrail");
             });
 
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.Property(e => e.EmployeeId).ValueGeneratedNever();
-
-                entity.Property(e => e.EmployeeNumber).ValueGeneratedOnAdd();
-            });
-
             modelBuilder.Entity<EmployeeRole>(entity =>
             {
                 entity.HasOne(d => d.Employee)
@@ -63,6 +56,8 @@ namespace DataAccess.DBContexts.HRMSDB
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserRole_User");
             });
+
+            modelBuilder.HasSequence("EmployeeNumber").StartsAt(10014);
 
             OnModelCreatingPartial(modelBuilder);
         }
