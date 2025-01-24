@@ -9,6 +9,11 @@ namespace DataAccess.DBContexts.HRMSDB.Models
     [Table("User")]
     public partial class User
     {
+        public User()
+        {
+            UserRoles = new HashSet<UserRole>();
+        }
+
         [Key]
         public int UserId { get; set; }
         public int EmployeeId { get; set; }
@@ -22,5 +27,8 @@ namespace DataAccess.DBContexts.HRMSDB.Models
         public DateTime? UpdatedDate { get; set; }
         [StringLength(50)]
         public string UpdatedBy { get; set; }
+
+        [InverseProperty(nameof(UserRole.User))]
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

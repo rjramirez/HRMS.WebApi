@@ -58,7 +58,7 @@ namespace DataAccess.DBContexts.HRMSDB
             modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserRole_User");

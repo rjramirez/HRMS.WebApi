@@ -23,8 +23,8 @@ namespace WebAPI.Controllers
         [SwaggerOperation(Summary = "Get Employee List")]
         public async Task<ActionResult<IEnumerable<EmployeeDetail>>> GetEmployees()
         {
-            IEnumerable<EmployeeDetail> referenceDataDetails = await _hrmsDBUnitOfWork.EmployeeRepository.FindAsync(
-                selector: e => new EmployeeDetail()
+            var referenceDataDetails = await _hrmsDBUnitOfWork.EmployeeRepository.FindAsync(
+                selector: e => new EmployeeDetail
                 {
                     EmployeeId = e.EmployeeId,
                     EmployeeNumber = e.EmployeeNumber,
@@ -32,11 +32,11 @@ namespace WebAPI.Controllers
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     SupervisorId = e.SupervisorId,
-                    EmployeeRoles = e.EmployeeRoles.Select(er => new EmployeeRoleDetail()
+                    EmployeeRoles = e.EmployeeRoles.Select(er => new EmployeeRoleDetail
                     {
                         EmployeeRoleId = er.EmployeeRoleId,
                         EmployeeId = er.EmployeeId,
-                        RoleDetail = new RoleDetail()
+                        RoleDetail = new RoleDetail
                         {
                             RoleId = er.Role.RoleId,
                             RoleName = er.Role.RoleName,
@@ -56,19 +56,18 @@ namespace WebAPI.Controllers
                     UpdatedDate = e.UpdatedDate,
                     UpdatedBy = e.UpdatedBy
                 },
-                predicate: r => r.Active == true,
+                predicate: r => r.Active,
                 orderBy: r => r.OrderBy(o => o.EmployeeId));
             return Ok(referenceDataDetails);
         }
-
 
         [HttpGet]
         [Route("GetEmployee")]
         [SwaggerOperation(Summary = "Get Employee Details by EmployeeNumber")]
         public async Task<ActionResult<EmployeeDetail>> Detail(int employeeNumber)
         {
-            EmployeeDetail emp = await _hrmsDBUnitOfWork.EmployeeRepository.SingleOrDefaultAsync(
-                selector: e => new EmployeeDetail()
+            var emp = await _hrmsDBUnitOfWork.EmployeeRepository.SingleOrDefaultAsync(
+                selector: e => new EmployeeDetail
                 {
                     EmployeeId = e.EmployeeId,
                     EmployeeNumber = e.EmployeeNumber,
@@ -76,11 +75,11 @@ namespace WebAPI.Controllers
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     SupervisorId = e.SupervisorId,
-                    EmployeeRoles = e.EmployeeRoles.Select(er => new EmployeeRoleDetail()
+                    EmployeeRoles = e.EmployeeRoles.Select(er => new EmployeeRoleDetail
                     {
                         EmployeeRoleId = er.EmployeeRoleId,
                         EmployeeId = er.EmployeeId,
-                        RoleDetail = new RoleDetail()
+                        RoleDetail = new RoleDetail
                         {
                             RoleId = er.Role.RoleId,
                             RoleName = er.Role.RoleName,
@@ -113,6 +112,35 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetEmployeeRoles")]
+        [SwaggerOperation(Summary = "Get Employee Roles")]
+        public async Task<ActionResult<IEnumerable<EmployeeRoleDetail>>> GetEmployeeRoles()
+        {
+            var employeeRoles = await _hrmsDBUnitOfWork.EmployeeRoleRepository.FindAsync(
+                selector: e => new EmployeeRoleDetail
+                {
+                    EmployeeRoleId = e.EmployeeRoleId,
+                    EmployeeId = e.EmployeeId,
+                    RoleDetail = new RoleDetail
+                    {
+                        RoleId = e.Role.RoleId,
+                        RoleName = e.Role.RoleName,
+                        RoleDescription = e.Role.RoleDescription,
+                        Active = e.Role.Active,
+                        CreatedDate = e.Role.CreatedDate,
+                        CreatedBy = e.Role.CreatedBy,
+                        UpdatedDate = e.Role.UpdatedDate,
+                        UpdatedBy = e.Role.UpdatedBy
+                    },
+                    CreatedDate = e.CreatedDate,
+                    CreatedBy = e.CreatedBy,
+                },
+                predicate: r => r.Role.Active,
+                orderBy: q => q.OrderBy(r => r.Role.RoleName));
+            return Ok(employeeRoles);
+        }
+
         [HttpPost]
         [Route("AddEmployee")]
         [SwaggerOperation(Summary = "Add Employee")]
@@ -123,7 +151,7 @@ namespace WebAPI.Controllers
                 return BadRequest(new ErrorMessage(ErrorMessageTypeConstant.BadRequest, "EmployeeDetail is null"));
             }
 
-            Employee employee = new Employee()
+            var employee = new Employee
             {
                 EmployeeNumber = employeeDetail.EmployeeNumber,
                 EmployeeEmail = employeeDetail.EmployeeEmail,
@@ -139,6 +167,18 @@ namespace WebAPI.Controllers
 
             await _hrmsDBUnitOfWork.EmployeeRepository.AddAsync(employee);
             await _hrmsDBUnitOfWork.SaveChangesAsync("System");
+
+            var employeeRoles = employeeDetail.EmployeeRoles.Select(role => new EmployeeRole
+            {
+                EmployeeId = employee.EmployeeId,
+                RoleId = role.RoleDetail.RoleId,
+                CreatedDate = DateTime.UtcNow,
+                CreatedBy = "System"
+            });
+
+            await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(employeeRoles);
+            await _hrmsDBUnitOfWork.SaveChangesAsync("System");
+
             return CreatedAtAction(nameof(Detail), new { employeeNumber = employee.EmployeeNumber }, employeeDetail);
         }
 
@@ -152,12 +192,13 @@ namespace WebAPI.Controllers
                 return BadRequest(new ErrorMessage(ErrorMessageTypeConstant.BadRequest, "EmployeeDetail is null"));
             }
 
-            Employee employee = await _hrmsDBUnitOfWork.EmployeeRepository.FirstOrDefaultAsync(predicate: e => e.EmployeeNumber == employeeDetail.EmployeeNumber);
+            var employee = await _hrmsDBUnitOfWork.EmployeeRepository.FirstOrDefaultAsync(predicate: e => e.EmployeeNumber == employeeDetail.EmployeeNumber);
 
             if (employee == null)
             {
                 return NotFound(new ErrorMessage(ErrorMessageTypeConstant.NotFound, $"Employee does not exist: {employeeDetail.EmployeeId}"));
             }
+
             employee.EmployeeNumber = employeeDetail.EmployeeNumber;
             employee.EmployeeEmail = employeeDetail.EmployeeEmail;
             employee.FirstName = employeeDetail.FirstName;
@@ -167,6 +208,15 @@ namespace WebAPI.Controllers
             employee.UpdatedDate = DateTime.UtcNow;
             employee.UpdatedBy = "System";
 
+            var employeeRoles = employeeDetail.EmployeeRoles.Select(role => new EmployeeRole
+            {
+                EmployeeId = employee.EmployeeId,
+                RoleId = role.RoleDetail.RoleId,
+                CreatedDate = DateTime.UtcNow,
+                CreatedBy = "System"
+            });
+
+            await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(employeeRoles);
             await _hrmsDBUnitOfWork.SaveChangesAsync("System");
 
             return Ok(employeeDetail);
@@ -175,9 +225,9 @@ namespace WebAPI.Controllers
         [HttpDelete]
         [Route("DeleteEmployee")]
         [SwaggerOperation(Summary = "Delete Employee by EmployeeNumber")]
-        public async Task<ActionResult<EmployeeDetail>> DeleteEmployee(int employeeNumber)
+        public async Task<ActionResult<int>> DeleteEmployee(int employeeNumber)
         {
-            Employee employee = await _hrmsDBUnitOfWork.EmployeeRepository.FirstOrDefaultAsync(predicate: e => e.EmployeeNumber == employeeNumber);
+            var employee = await _hrmsDBUnitOfWork.EmployeeRepository.FirstOrDefaultAsync(predicate: e => e.EmployeeNumber == employeeNumber);
             if (employee == null)
             {
                 return NotFound(new ErrorMessage(ErrorMessageTypeConstant.NotFound, $"Employee does not exist: {employeeNumber}"));
@@ -191,6 +241,5 @@ namespace WebAPI.Controllers
 
             return Ok(employee.EmployeeNumber);
         }
-
     }
 }
