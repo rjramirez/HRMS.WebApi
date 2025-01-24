@@ -21,6 +21,7 @@ namespace DataAccess.UnitOfWorks.HRMSDB
             AuditTrailRepository = new AuditTrailRepository(_context);
             EmployeeRepository = new EmployeeRepository(_context);
             EmployeeRoleRepository = new EmployeeRoleRepository(_context);
+            RoleRepository = new RoleRepository(_context);
         }
 
         public IErrorLogRepository ErrorLogRepository { get; private set; }
@@ -28,6 +29,7 @@ namespace DataAccess.UnitOfWorks.HRMSDB
         public IAuditTrailRepository AuditTrailRepository { get; private set; }
         public IEmployeeRepository EmployeeRepository { get; private set; }
         public IEmployeeRoleRepository EmployeeRoleRepository { get; private set; }
+        public IRoleRepository RoleRepository { get; private set; }
 
         public void Dispose()
         {

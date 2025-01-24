@@ -113,32 +113,20 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetEmployeeRoles")]
+        [Route("GetRoles")]
         [SwaggerOperation(Summary = "Get Employee Roles")]
-        public async Task<ActionResult<IEnumerable<EmployeeRoleDetail>>> GetEmployeeRoles()
+        public async Task<ActionResult<IEnumerable<RoleDetail>>> GetRoles()
         {
-            var employeeRoles = await _hrmsDBUnitOfWork.EmployeeRoleRepository.FindAsync(
-                selector: e => new EmployeeRoleDetail
+            var roles = await _hrmsDBUnitOfWork.RoleRepository.FindAsync(
+                selector: e => new RoleDetail
                 {
-                    EmployeeRoleId = e.EmployeeRoleId,
-                    EmployeeId = e.EmployeeId,
-                    RoleDetail = new RoleDetail
-                    {
-                        RoleId = e.Role.RoleId,
-                        RoleName = e.Role.RoleName,
-                        RoleDescription = e.Role.RoleDescription,
-                        Active = e.Role.Active,
-                        CreatedDate = e.Role.CreatedDate,
-                        CreatedBy = e.Role.CreatedBy,
-                        UpdatedDate = e.Role.UpdatedDate,
-                        UpdatedBy = e.Role.UpdatedBy
-                    },
-                    CreatedDate = e.CreatedDate,
-                    CreatedBy = e.CreatedBy,
+                    RoleId = e.RoleId,
+                    RoleName = e.RoleName,
+                    RoleDescription = e.RoleDescription,
                 },
-                predicate: r => r.Role.Active,
-                orderBy: q => q.OrderBy(r => r.Role.RoleName));
-            return Ok(employeeRoles);
+                predicate: r => r.Active,
+                orderBy: q => q.OrderBy(r => r.RoleName));
+            return Ok(roles);
         }
 
         [HttpPost]

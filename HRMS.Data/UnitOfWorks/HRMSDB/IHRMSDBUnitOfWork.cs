@@ -9,5 +9,6 @@ namespace DataAccess.UnitOfWorks.HRMSDB
         public IAuditTrailRepository AuditTrailRepository { get; }
         public IEmployeeRepository EmployeeRepository { get; }
         public IEmployeeRoleRepository EmployeeRoleRepository { get; }
+        public IRoleRepository RoleRepository { get; }
     }
 }
