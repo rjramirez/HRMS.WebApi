@@ -204,15 +204,42 @@ namespace WebAPI.Controllers
             employee.UpdatedDate = DateTime.UtcNow;
             employee.UpdatedBy = "System";
 
-            var employeeRoles = employeeDetail.EmployeeRoles.Select(role => new EmployeeRole
-            {
-                EmployeeId = employee.EmployeeId,
-                RoleId = role.RoleDetail.RoleId,
-                CreatedDate = DateTime.UtcNow,
-                CreatedBy = "System"
-            });
+            // Fetch existing roles
+            var existingRoles = await _hrmsDBUnitOfWork.EmployeeRoleRepository
+                .FindAsync(
+                    selector: er => new EmployeeRole
+                    {
+                        EmployeeRoleId = er.EmployeeRoleId,
+                        RoleId = er.RoleId,
+                        EmployeeId = er.EmployeeId
+                    },
+                    predicate: er => er.EmployeeId == employee.EmployeeId
+                );
 
-            await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(employeeRoles);
+
+            if (existingRoles.Any())
+            {
+                // Remove existing roles
+                _hrmsDBUnitOfWork.EmployeeRoleRepository.RemoveRange(existingRoles);
+            }
+
+
+            if (employeeDetail.EmployeeRoles.Any()) 
+            {
+                // Prepare new roles
+                var newRoles = employeeDetail.EmployeeRoles
+                    .Select(role => new EmployeeRole
+                    {
+                        EmployeeId = employee.EmployeeId,
+                        RoleId = role.RoleDetail.RoleId,
+                        CreatedDate = DateTime.UtcNow,
+                        CreatedBy = "System"
+                    }).ToList();
+
+                // Insert new roles
+                await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(newRoles);
+            }
+            
             await _hrmsDBUnitOfWork.SaveChangesAsync("System");
 
             return Ok(employeeDetail);
