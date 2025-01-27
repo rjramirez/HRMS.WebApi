@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         [SwaggerOperation(Summary = "Get Employee List")]
         public async Task<ActionResult<IEnumerable<EmployeeDetail>>> GetEmployees()
         {
-            var referenceDataDetails = await _hrmsDBUnitOfWork.EmployeeRepository.FindAsync(
+            var employeeList = await _hrmsDBUnitOfWork.EmployeeRepository.FindAsync(
                 selector: e => new EmployeeDetail
                 {
                     EmployeeId = e.EmployeeId,
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
                 },
                 predicate: r => r.Active,
                 orderBy: r => r.OrderBy(o => o.EmployeeId));
-            return Ok(referenceDataDetails);
+            return Ok(employeeList);
         }
 
         [HttpGet]
@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
         [SwaggerOperation(Summary = "Get Employee Details by EmployeeNumber")]
         public async Task<ActionResult<EmployeeDetail>> Detail(int employeeNumber)
         {
-            var emp = await _hrmsDBUnitOfWork.EmployeeRepository.SingleOrDefaultAsync(
+            var empDetail = await _hrmsDBUnitOfWork.EmployeeRepository.SingleOrDefaultAsync(
                 selector: e => new EmployeeDetail
                 {
                     EmployeeId = e.EmployeeId,
@@ -102,9 +102,9 @@ namespace WebAPI.Controllers
                 predicate: r => r.Active && r.EmployeeNumber == employeeNumber
             );
 
-            if (emp != null)
+            if (empDetail != null)
             {
-                return Ok(emp);
+                return Ok(empDetail);
             }
             else
             {
