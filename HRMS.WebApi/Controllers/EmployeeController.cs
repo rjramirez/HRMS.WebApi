@@ -153,9 +153,8 @@ namespace WebAPI.Controllers
                 UpdatedBy = "System"
             };
 
-            //Generate EmployeeNumber
+            // Generate EmployeeNumber
             int maxEmployeeNumberPlusOne = await _hrmsDBUnitOfWork.EmployeeRepository.MaxAsync(e => e.EmployeeNumber) + 1;
-
             employee.EmployeeNumber = maxEmployeeNumberPlusOne;
 
             await _hrmsDBUnitOfWork.EmployeeRepository.AddAsync(employee);
@@ -174,6 +173,13 @@ namespace WebAPI.Controllers
                 await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(employeeRoles);
                 await _hrmsDBUnitOfWork.SaveChangesAsync("System");
             }
+
+            employeeDetail.EmployeeId = employee.EmployeeId;
+            employeeDetail.EmployeeNumber = employee.EmployeeNumber;
+            employeeDetail.CreatedDate = employee.CreatedDate;
+            employeeDetail.CreatedBy = employee.CreatedBy;
+            employeeDetail.UpdatedDate = employee.UpdatedDate;
+            employeeDetail.UpdatedBy = employee.UpdatedBy;
 
             return CreatedAtAction(nameof(Detail), new { employeeNumber = employee.EmployeeNumber }, employeeDetail);
         }
@@ -239,7 +245,14 @@ namespace WebAPI.Controllers
                 // Insert new roles
                 await _hrmsDBUnitOfWork.EmployeeRoleRepository.AddRangeAsync(newRoles);
             }
-            
+
+            employeeDetail.EmployeeId = employee.EmployeeId;
+            employeeDetail.EmployeeNumber = employee.EmployeeNumber;
+            employeeDetail.CreatedDate = employee.CreatedDate;
+            employeeDetail.CreatedBy = employee.CreatedBy;
+            employeeDetail.UpdatedDate = employee.UpdatedDate;
+            employeeDetail.UpdatedBy = employee.UpdatedBy;
+
             await _hrmsDBUnitOfWork.SaveChangesAsync("System");
 
             return Ok(employeeDetail);
