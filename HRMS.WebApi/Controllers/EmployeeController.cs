@@ -246,9 +246,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteEmployee")]
+        [Route("DeleteEmployee/{employeeNumber}")]
         [SwaggerOperation(Summary = "Delete Employee by EmployeeNumber")]
-        public async Task<ActionResult<int>> DeleteEmployee(int employeeNumber)
+        public async Task<ActionResult<int>> DeleteEmployee([FromRoute] int employeeNumber)
         {
             var employee = await _hrmsDBUnitOfWork.EmployeeRepository.FirstOrDefaultAsync(predicate: e => e.EmployeeNumber == employeeNumber);
             if (employee == null)
